@@ -17,9 +17,12 @@
 
         body {
             background-image: url('https://cdn.fondecranvip.com/2025/08/dM0yF1Vg-fond-decran-Doraemon-80.webp');
+            /* Użycie 'contain' na małych ekranach może być lepsze, ale 'cover' na razie zostawiamy */
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
+            /* Nowość: Upewnienie się, że tło obejmuje cały widok nawet na małych urządzeniach */
+            background-attachment: fixed; 
             color: black;
             font-weight: bold;
             overflow-x: hidden;
@@ -28,6 +31,9 @@
         .center-content {
             text-align: center;
             margin-top: 50px;
+            /* Nowość: Użycie paddingu zamiast stałego margin, by uniknąć ucięcia na górze */
+            padding-top: 50px; 
+            padding-bottom: 50px;
         }
 
         h1,
@@ -36,12 +42,18 @@
             font-weight: bold;
         }
 
+        /* Nowość: Lepsza czytelność tekstu na tle poprzez dodanie delikatnego cienia */
+        h1, p {
+            text-shadow: 1px 1px 2px white, -1px -1px 2px white, 1px -1px 2px white, -1px 1px 2px white;
+        }
+
         .round-btn {
             border-radius: 30px;
-            padding: 10px 30px;
-            font-size: 1.2rem;
+            padding: 10px 20px; /* Zmniejszony padding poziomy dla małych ekranów */
+            font-size: 1rem; /* Zmniejszona czcionka dla małych ekranów */
             margin: 5px;
             transition: transform 0.3s ease;
+            white-space: normal; /* Umożliwia łamanie tekstu w przycisku */
         }
 
         .shake {
@@ -52,23 +64,18 @@
             0% {
                 transform: translate(0, 0);
             }
-
             20% {
                 transform: translate(-10px, 0);
             }
-
             40% {
                 transform: translate(10px, 0);
             }
-
             60% {
                 transform: translate(-10px, 0);
             }
-
             80% {
                 transform: translate(10px, 0);
             }
-
             100% {
                 transform: translate(0, 0);
             }
@@ -80,19 +87,21 @@
 
         .bubble {
             position: fixed;
-            top: 20%;
+            top: 10%; /* Przesunięty wyżej, aby nie zasłaniać przycisków */
             left: 50%;
             transform: translateX(-50%);
             background: white;
             color: black;
-            padding: 20px 30px;
+            padding: 15px 20px; /* Zmniejszony padding */
             border-radius: 20px;
-            font-size: 1.4rem;
+            font-size: 1.2rem; /* Zmniejszona czcionka */
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             opacity: 0;
             transition: opacity 0.4s ease;
             z-index: 10;
             pointer-events: none;
+            max-width: 90%; /* Ograniczenie szerokości na małych ekranach */
+            text-align: center;
         }
 
         .bubble.show {
@@ -129,15 +138,38 @@
         .letter {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
-            padding: 30px;
-            margin-top: 20px;
-            font-size: 1.2rem;
+            padding: 20px; /* Zmniejszony padding */
+            margin-top: 30px;
+            font-size: 1rem; /* Zmniejszona czcionka dla lepszej czytelności na mobile */
             white-space: pre-line;
             position: relative;
             overflow: hidden;
+            text-align: left; /* Wyrównanie tekstu listu do lewej */
+        }
+        
+        /* Nowość: Kontener dla tekstu, aby nie był za szeroki na dużych ekranach */
+        .container {
+            max-width: 600px; /* Maksymalna szerokość kontenera dla lepszej czytelności */
+        }
+        
+        /* Nowość: Upewnienie się, że przyciski są ułożone w kolumnę na małych ekranach */
+        #buttonsContainer {
+            flex-direction: column; 
         }
 
-        /* ---- SERDUSZKA ---- */
+        #buttonsContainer .col-auto {
+            width: 100%;
+            padding: 0 !important;
+            margin-bottom: 5px;
+        }
+        
+        #buttonsContainer .round-btn {
+            width: 90%; /* Przyciski zajmują większość szerokości */
+            margin: 5px auto;
+            display: block;
+        }
+
+        /* ---- SERDUSZKA (bez zmian, są ok) ---- */
         .heart {
             position: absolute;
             color: red;
@@ -182,6 +214,7 @@
     </div>
 
     <script>
+        // Twój skrypt JS bez zmian, ponieważ jest w porządku
         const yesBtn = document.getElementById("yesBtn");
         const noBtn = document.getElementById("noBtn");
         const bubble = document.getElementById("bubble");
@@ -247,14 +280,14 @@
 
                             // ---- TAK ----
                             loveYes.addEventListener("click", () => {
-                                body.style.backgroundImage = "url('https://a.storyblok.com/f/178900/920x518/290924fb49/my-deer-friend-nokotan.jpg";
+                                body.style.backgroundImage = "url('https://a.storyblok.com/f/178900/920x518/290924fb49/my-deer-friend-nokotan.jpg')";
                                 buttonsContainer.innerHTML = "";
 
                                 const letter = document.createElement("div");
                                 letter.classList.add("letter");
                                 letter.innerHTML = `
-                                    <h2 style="text-align:center;">親愛なるリン</h2>
-                                    リン、このサイトは少し変に見えるかもしれないけど、数時間しか作業していないとはいえ、心をこめて作ったんだ。君にどうしても伝えたいことがあったから。
+                                        <h2 style="text-align:center;">親愛なるリン</h2>
+                                        リン、このサイトは少し変に見えるかもしれないけど、数時間しか作業していないとはいえ、心をこめて作ったんだ。君にどうしても伝えたいことがあったから。
 君がどんな状況でも自分のことを悪く考えてしまうのを見て、ずっと胸が痛かった。そして、伝えたいことがある。君が自分を悪く思う気持ちはわかるよ。俺もそういう時はある。でも、そのために俺がいるんだ。君がどれほど素敵な人なのか、少しでもわかってほしい。君のことは真剣に思っているし、この言葉をちゃんと心に留めてほしい。
 最初に出会ったとき、俺は少し疑い深くて、君も過去のことがあって控えめだったよね。でも時間が経つにつれ、君は心を開いてくれて、そのリンの姿を好きになった。だから俺も心を開こうと決めた。今までどんなデートでも、君ほど俺に喜びや愛情をくれた人はいなかった。本当に大切に思っている。
 君が面白いことを言って、二人で数分間笑っている時間が大好きだし、一緒に話したり、ゲームしたり、何かを見たりして過ごす時間は本当に幸せだ。君が「愛してるよ」って言うと、俺の心臓は本当に速く鼓動する。
@@ -264,7 +297,7 @@
 この関係ができるだけ長く続いてほしい。本気で大切に思っているし、君を傷つけることなんて絶対に想像できない。
 リン、愛してるよ。
 ミハウより。<br><br>
-                                `;
+                                        `;
                                 document.querySelector(".container").appendChild(letter);
 
                                 // ---- ANIMACJA SERDUSZEK ----
