@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凛へのプレゼント</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-image: url('https://cdn.fondecranvip.com/2025/08/dM0yF1Vg-fond-decran-Doraemon-80.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            color: black;
+            font-weight: bold;
+            overflow-x: hidden;
+        }
+
+        .center-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1,
+        p {
+            color: black;
+            font-weight: bold;
+        }
+
+        .round-btn {
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            margin: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .shake {
+            animation: shakeAnim 0.4s ease;
+        }
+
+        @keyframes shakeAnim {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            20% {
+                transform: translate(-10px, 0);
+            }
+
+            40% {
+                transform: translate(10px, 0);
+            }
+
+            60% {
+                transform: translate(-10px, 0);
+            }
+
+            80% {
+                transform: translate(10px, 0);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .grow {
+            transform: scale(1.5);
+        }
+
+        .bubble {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: black;
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-size: 1.4rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .bubble.show {
+            opacity: 1;
+        }
+
+        #bloodEffect {
+            pointer-events: none;
+        }
+
+        .blood {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            background: url('https://clipart.info/images/ccovers/1634921224blood-splatter-png-11.png');
+            background-size: cover;
+            z-index: 9999;
+            animation: bloodDrop 2s forwards;
+        }
+
+        @keyframes bloodDrop {
+            0% {
+                top: -100%;
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        /* ---- LISTA Z SERDUSZKAMI ---- */
+        .letter {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            white-space: pre-line;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ---- SERDUSZKA ---- */
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 1.5rem;
+            animation: floatUp 4s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-800px) scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bloodEffect"></div>
+    <audio id="bloodSound"
+        src="https://orangefreesounds.com/wp-content/uploads/2022/10/Blood-drop-sound-effect.mp3"></audio>
+    <div id="bubble" class="bubble">知ってるよ、バカ</div>
+
+    <div class="container center-content">
+        <h1 class="mb-4" id="questionHeader">質問 1</h1>
+        <p class="lead mb-4" id="questionText">あなたの名前はリンですか？</p>
+        <div class="row align-items-center justify-content-center" id="buttonsContainer">
+            <div class="col-auto px-4">
+                <button id="yesBtn" class="btn btn-primary round-btn me-3">はい</button>
+                <button id="noBtn" class="btn btn-danger round-btn">いいえ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById("yesBtn");
+        const noBtn = document.getElementById("noBtn");
+        const bubble = document.getElementById("bubble");
+        const questionText = document.getElementById("questionText");
+        const questionHeader = document.getElementById("questionHeader");
+        const buttonsContainer = document.getElementById("buttonsContainer");
+        const bloodEffect = document.getElementById("bloodEffect");
+        const bloodSound = document.getElementById("bloodSound");
+        const body = document.body;
+
+        let step = 1;
+        let secondQuestionNoClicked = false;
+
+        yesBtn.addEventListener("click", () => {
+            if (step === 1) {
+                bubble.textContent = "知ってるよ、バカ";
+                bubble.classList.add("show");
+                setTimeout(() => { bubble.classList.remove("show"); questionHeader.textContent = "質問 2"; questionText.textContent = "あなたは美しいですか？"; step = 2; }, 2000);
+            } else if (step === 2) {
+                if (secondQuestionNoClicked) { body.style.backgroundImage = "url('https://cdn.fondecranvip.com/2025/08/dM0yF1Vg-fond-decran-Doraemon-80.webp')"; secondQuestionNoClicked = false; }
+                bubble.textContent = "もちろん！";
+                bubble.classList.add("show");
+                setTimeout(() => {
+                    bubble.classList.remove("show");
+                    questionHeader.textContent = "質問 3";
+                    questionText.textContent = "世界中のすべての女性に何をすべきですか？";
+                    step = 3;
+                    buttonsContainer.innerHTML = `
+                        <div class="col-auto px-4">
+                            <button id="killBtn" class="btn btn-danger round-btn me-2">殺す</button>
+                            <button id="nothingBtn" class="btn btn-secondary round-btn me-2">何もしない</button>
+                            <button id="wtfBtn" class="btn btn-warning round-btn">これは何の質問ですか？</button>
+                        </div>
+                    `;
+                    const killBtn = document.getElementById("killBtn");
+                    const nothingBtn = document.getElementById("nothingBtn");
+                    const wtfBtn = document.getElementById("wtfBtn");
+
+                    killBtn.addEventListener("click", () => {
+                        bloodSound.currentTime = 0; bloodSound.play();
+                        bloodEffect.classList.add("blood");
+                        bloodEffect.addEventListener("animationend", function handler() {
+                            bloodEffect.classList.remove("blood");
+                            bloodEffect.removeEventListener("animationend", handler);
+                        });
+                        setTimeout(() => {
+                            questionHeader.textContent = "質問 4";
+                            questionText.textContent = "本当に自分のことを知りたいですか？";
+                            buttonsContainer.innerHTML = `
+                                <button id="loveYes" class="btn btn-success round-btn me-2">はい</button>
+                                <button id="loveNo" class="btn btn-danger round-btn">いいえ</button>
+                            `;
+
+                            const loveYes = document.getElementById("loveYes");
+                            const loveNo = document.getElementById("loveNo");
+
+                            // ---- NIE ----
+                            loveNo.addEventListener("click", () => {
+                                bubble.textContent = "クイズをやるのに、真実を知りないの？";
+                                bubble.classList.add("show");
+                                setTimeout(() => bubble.classList.remove("show"), 2500);
+                            });
+
+                            // ---- TAK ----
+                            loveYes.addEventListener("click", () => {
+                                body.style.backgroundImage = "url('https://a.storyblok.com/f/178900/920x518/290924fb49/my-deer-friend-nokotan.jpg";
+                                buttonsContainer.innerHTML = "";
+
+                                const letter = document.createElement("div");
+                                letter.classList.add("letter");
+                                letter.innerHTML = `
+                                    <h2 style="text-align:center;">親愛なるリン</h2>
+                                    リン、このサイトは少し変に見えるかもしれないけど、数時間しか作業していないとはいえ、心をこめて作ったんだ。君にどうしても伝えたいことがあったから。
+君がどんな状況でも自分のことを悪く考えてしまうのを見て、ずっと胸が痛かった。そして、伝えたいことがある。君が自分を悪く思う気持ちはわかるよ。俺もそういう時はある。でも、そのために俺がいるんだ。君がどれほど素敵な人なのか、少しでもわかってほしい。君のことは真剣に思っているし、この言葉をちゃんと心に留めてほしい。
+最初に出会ったとき、俺は少し疑い深くて、君も過去のことがあって控えめだったよね。でも時間が経つにつれ、君は心を開いてくれて、そのリンの姿を好きになった。だから俺も心を開こうと決めた。今までどんなデートでも、君ほど俺に喜びや愛情をくれた人はいなかった。本当に大切に思っている。
+君が面白いことを言って、二人で数分間笑っている時間が大好きだし、一緒に話したり、ゲームしたり、何かを見たりして過ごす時間は本当に幸せだ。君が「愛してるよ」って言うと、俺の心臓は本当に速く鼓動する。
+君はとても優しくて、でもしっかりしていて、そこが好きなんだ。君のことを新しく知るたびに、俺はもっともっと君に惹かれていく。まだ知らない素晴らしいところがたくさんあるんだろうけど、これから毎日少しずつ知っていきたい。
+君が自分を「ブスだ」とか言うのは本当に嫌だ。俺にとって君は美しさの基準になれるくらい綺麗なんだ。可愛い顔、愛らしい髪、素敵なピアス、俺を赤くさせるスタイル、そして見つめていたら沈んでしまいそうなほど綺麗な目。俺の視点から自分を見てみてほしい。君にはたくさんの美しいところがあるし、悪く思う必要なんて全くない。
+俺は君に、自分自身を愛してほしい。俺が君を愛しているのと同じくらいに。
+この関係ができるだけ長く続いてほしい。本気で大切に思っているし、君を傷つけることなんて絶対に想像できない。
+リン、愛してるよ。
+ミハウより。<br><br>
+                                `;
+                                document.querySelector(".container").appendChild(letter);
+
+                                // ---- ANIMACJA SERDUSZEK ----
+                                for (let i = 0; i < 30; i++) {
+                                    const heart = document.createElement("div");
+                                    heart.classList.add("heart");
+                                    heart.style.left = Math.random() * 100 + "%";
+                                    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+                                    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+                                    heart.textContent = "❤️";
+                                    document.body.appendChild(heart);
+                                }
+                            });
+                        }, 2100);
+                    });
+
+                    nothingBtn.addEventListener("click", () => {
+                        bubble.textContent = "嘘つくな";
+                        bubble.classList.add("show");
+                        setTimeout(() => bubble.classList.remove("show"), 2000);
+                    });
+
+                    wtfBtn.addEventListener("click", () => {
+                        bubble.textContent = "嘘つくな";
+                        bubble.classList.add("show");
+                        setTimeout(() => bubble.classList.remove("show"), 2000);
+                    });
+                }, 2000);
+            }
+        });
+
+        noBtn.addEventListener("click", () => {
+            if (step === 1) {
+                yesBtn.classList.add("grow");
+                body.classList.add("shake");
+                setTimeout(() => { body.classList.remove("shake"); yesBtn.classList.remove("grow"); }, 500);
+            } else if (step === 2) {
+                body.style.backgroundImage = "url('https://wallpapers.com/images/hd/angry-doraemon-4k-yt2ap50vvqg1a1b4.jpg')";
+                bubble.textContent = "怒らないで";
+                bubble.classList.add("show");
+                setTimeout(() => bubble.classList.remove("show"), 2000);
+                secondQuestionNoClicked = true;
+            }
+        });
+    </script>
+</body>
+
+</html>
